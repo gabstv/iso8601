@@ -2,7 +2,10 @@
 // ISO 8601 format, without subsecond resolution or time zone info.
 package iso8601
 
-import "time"
+import (
+	"net/url"
+	"time"
+)
 
 const Format = "2006-01-02T15:04:05"
 const jsonFormat = `"` + Format + `"`
@@ -43,4 +46,11 @@ func (it *Time) UnmarshalJSON(data []byte) error {
 
 func (it Time) String() string {
 	return time.Time(it).String()
+}
+
+// Implements the google/go-querystring `Encoder` interface so that
+// our ISO 8601 time can be encoded in both JSON and query string format
+func (it Time) EncodeValues(key string, v *url.Values) error {
+	v.Add(key, time.Time(it).Format(Format))
+	return nil
 }

@@ -2,6 +2,7 @@ package iso8601
 
 import (
 	"encoding/json"
+	"net/url"
 	"testing"
 	"time"
 )
@@ -31,5 +32,16 @@ func TestISO8601Time(t *testing.T) {
 
 	if now.String() != now2.String() {
 		t.Fatalf("String format for %s does not equal expected %s", now2, now)
+	}
+}
+
+func TestURLEncode(t *testing.T) {
+	isotime := New(time.Date(1993, time.June, 23, 12, 15, 35, 0, time.UTC))
+	v := &url.Values{}
+
+	isotime.EncodeValues("created", v)
+	expected := "1993-06-23T12:15:35"
+	if r := v.Get("created"); r != expected {
+		t.Errorf("Error encoding URL value: expected %s but got %s\n", expected, r)
 	}
 }
