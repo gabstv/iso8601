@@ -35,6 +35,14 @@ func TestISO8601Time(t *testing.T) {
 	}
 }
 
+func TestISOString(t *testing.T) {
+	tt := New(time.Date(1993, time.June, 23, 12, 15, 35, 0, time.UTC))
+	ex := "1993-06-23T12:15:35"
+	if tt.ISOString() != ex {
+		t.Errorf("Expected ISOString() to return %s but got %s", ex, tt.ISOString())
+	}
+}
+
 func TestURLEncode(t *testing.T) {
 	isotime := New(time.Date(1993, time.June, 23, 12, 15, 35, 0, time.UTC))
 	v := &url.Values{}

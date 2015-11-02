@@ -48,6 +48,11 @@ func (it Time) String() string {
 	return time.Time(it).String()
 }
 
+// ISOString returns a string version of the time in its ISO8601 format
+func (it Time) ISOString() string {
+	return time.Time(it).Format(Format)
+}
+
 // Implements the google/go-querystring `Encoder` interface so that
 // our ISO 8601 time can be encoded in both JSON and query string format
 func (it Time) EncodeValues(key string, v *url.Values) error {
