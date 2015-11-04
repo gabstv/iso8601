@@ -7,8 +7,10 @@ import (
 	"time"
 )
 
-const Format = "2006-01-02T15:04:05"
+const Format = "2006-01-02T15:04:05"     // 2015-11-03T18:37:49-02
+const Format2 = "2006-01-02T15:04:05-02" // 2015-11-03T18:37:49-02
 const jsonFormat = `"` + Format + `"`
+const jsonFormat2 = `"` + Format2 + `"`
 
 var fixedZone = time.FixedZone("", 0)
 
@@ -39,6 +41,11 @@ func (it *Time) UnmarshalJSON(data []byte) error {
 	t, err := time.ParseInLocation(jsonFormat, string(data), fixedZone)
 	if err == nil {
 		*it = Time(t)
+	} else {
+		t, err = time.ParseInLocation(jsonFormat2, string(data), fixedZone)
+		if err == nil {
+			*it = Time(t)
+		}
 	}
 
 	return err
